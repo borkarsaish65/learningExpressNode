@@ -5,7 +5,6 @@ const forecast = (latitude,longitude,callback) =>{
     const url = `https://api.darksky.net/forecast/d375c9bfe82f06660d05faac6f12d15b/${latitude},${longitude}`;
 
     request({url,json:true},(error,{body})=>{
-
         if(error)
         {
            callback('Unable to connect to the internet',undefined); 
@@ -15,7 +14,9 @@ const forecast = (latitude,longitude,callback) =>{
             callback('Invalid name please retry',undefined);
         }
         else{
+           
             callback(undefined,{
+                windSpeed:body.currently.windSpeed,
                 summary:body.daily.data[0].summary,
                 temperature:body.currently.temperature,
                 probability:body.currently.precipProbability

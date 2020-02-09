@@ -77,13 +77,13 @@ app.get('/weather',(req,res)=>{
         {
           return console.log(error);
         }
-        forecast(latitude,longitude,(error, {summary,temperature,probability}) => {
-         
+        forecast(latitude,longitude,(error, {windSpeed,summary,temperature,probability}) => {
                 if(error)
             {
                 return console.log(error);
             }
-            res.send({  forecast:summary,
+            res.send({ forecast:summary,
+                windSpeed,
                 temperature,
                 probability,
                 location,

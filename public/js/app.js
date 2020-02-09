@@ -18,7 +18,7 @@ weatherForm.addEventListener('submit',(e)=>{
                 {
                     console.log(data);
                     console.log(data.location);
-                    messageOne.textContent = `It is ${data.forecast}. It is ${data.temperature} fareignheight. There is ${data.probability}% of rain. ${data.location}`;   
+                    messageOne.textContent = `It is ${data.forecast}. It is ${data.temperature} fareignheight. There is ${data.probability}% of rain. ${data.location}.Wind speed is ${data.windSpeed}`;   
                 
                 }
    
