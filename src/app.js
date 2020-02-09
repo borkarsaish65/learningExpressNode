@@ -1,11 +1,17 @@
 const path = require('path');
 const express = require('express');// express is a function
 const hbs = require('hbs');
+const geocode = require('./util/geocode');
+const forecast = require('./util/forecast');
 // console.log(__dirname);
 // console.log(path.join(__dirname,'../public'));
 //directory setup
 
 const app = express();
+
+var cors = require('cors')
+
+app.use(cors()) 
 
 //define paths for express config
 const viewsPath = path.join(__dirname,'../templates/views');
@@ -58,10 +64,53 @@ app.get('/help',(req,res)=>{
 
 
 app.get('/weather',(req,res)=>{
-    res.send({latitude:15.232,
-               longitude:72.213,
-            location:'Margao'}); 
+    if(!req.query.address)
+    {
+        return res.send({
+            error:'You must enter a location!'
+        })
+    }
+    geocode(req.query.address,(error,{latitude,longitude,location}={})=>{
+        if(error)
+        {
+          return console.log(error);
+        }
+        forecast(latitude,longitude,(error, {summary,temperature,probability}) => {
+         
+                if(error)
+            {
+                return console.log(error);
+            }
+            res.send({  forecast:summary,
+                temperature,
+                probability,
+                location,
+                address:req.query.address}); 
+     
+        })
+        
+        })
+
+  
 })
+
+
+
+
+
+app.get('/products',(req,res)=>{
+    if(!req.query.search)
+    {
+       return res.send({
+            error:'you must provide a search term'
+        })
+    }
+    console.log(req.query.name);
+    res.send({
+        products:[]
+    })
+})
+
 
 app.get('/help/*',(req,res)=>{
 
